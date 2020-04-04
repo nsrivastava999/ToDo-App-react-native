@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, FlatList, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, FlatList, ScrollView, Alert, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import Header from './components/header';
 import TodoItem from './components/todoitem';
 import AddTodo from './components/addtodo';
@@ -18,32 +18,46 @@ export default function App() {
   };
 
   const submitHandler = (text) => {
-    setTodos((prevTodos) => {
-      return [
-        { text: text, key: Math.random().toString() },
-        ...prevTodos
-      ];
-    })
+
+    if(text.length>0){
+      setTodos((prevTodos) => {
+        return [
+          { text: text, key: Math.random().toString() },
+          ...prevTodos
+        ];
+      });
+    }
+    else{
+      Alert.alert("OOPS!","Write Something to Add!",[
+        {text:"Understood"}
+      ]);
+    }
   }
 
   return (
-    <ScrollView>
-    <View style={styles.container}>
-      <Header />
-      <View style={styles.content}>
-        <AddTodo submitHandler ={submitHandler} />
-        <View style={styles.list}>
-          <FlatList
-            data={todos}
-            renderItem={({ item }) => (
-              <TodoItem item={item} pressHandler={pressHandler} />
-            )}
-          />
+    <TouchableWithoutFeedback 
+      onPress = {() => {
+        Keyboard.dismiss();
+      }}
+    >
+      <ScrollView>
+        <View style={styles.container}>
+          <Header />
+          <View style={styles.content}>
+            <AddTodo submitHandler ={submitHandler} />
+            <View style={styles.list}>
+              <FlatList
+                data={todos}
+                renderItem={({ item }) => (
+                  <TodoItem item={item} pressHandler={pressHandler} />
+                )}
+              />
+            </View>
+            <Text style={styles.info}>Click on any item to remove it from the list!</Text>
+          </View>
         </View>
-        <Text style={styles.info}>Click on any item to remove it from the list!</Text>
-      </View>
-    </View>
-    </ScrollView>
+      </ScrollView>
+    </TouchableWithoutFeedback>
   );
 }
 
