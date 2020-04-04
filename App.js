@@ -19,7 +19,7 @@ export default function App() {
 
   const submitHandler = (text) => {
 
-    if(text.length>0){
+    if (text.length > 0) {
       setTodos((prevTodos) => {
         return [
           { text: text, key: Math.random().toString() },
@@ -27,36 +27,36 @@ export default function App() {
         ];
       });
     }
-    else{
-      Alert.alert("OOPS!","Write Something to Add!",[
-        {text:"Understood"}
+    else {
+      Alert.alert("OOPS!", "Write Something to Add!", [
+        { text: "Understood" }
       ]);
     }
   }
 
   return (
-    <TouchableWithoutFeedback 
-      onPress = {() => {
+    <TouchableWithoutFeedback
+      onPress={() => {
         Keyboard.dismiss();
       }}
     >
-      <ScrollView>
-        <View style={styles.container}>
-          <Header />
-          <View style={styles.content}>
-            <AddTodo submitHandler ={submitHandler} />
-            <View style={styles.list}>
-              <FlatList
-                data={todos}
-                renderItem={({ item }) => (
-                  <TodoItem item={item} pressHandler={pressHandler} />
-                )}
-              />
-            </View>
-            <Text style={styles.info}>Click on any item to remove it from the list!</Text>
+
+      <View style={styles.container}>
+        <Header />
+        <View style={styles.content}>
+          <AddTodo submitHandler={submitHandler} />
+          <View style={styles.list}>
+            <FlatList
+              data={todos}
+              renderItem={({ item }) => (
+                <TodoItem item={item} pressHandler={pressHandler} />
+              )}
+            />
           </View>
+          <Text style={styles.info}>Click on any item to remove it from the list!</Text>
         </View>
-      </ScrollView>
+      </View>
+
     </TouchableWithoutFeedback>
   );
 }
@@ -68,12 +68,14 @@ const styles = StyleSheet.create({
   },
   content: {
     padding: 40,
+    flex:1,
   },
   list: {
     marginTop: 20,
+    flex:1,
   },
-  info:{
-    fontSize:15,
-    padding:10,
+  info: {
+    fontSize: 15,
+    padding: 10,
   }
 });
